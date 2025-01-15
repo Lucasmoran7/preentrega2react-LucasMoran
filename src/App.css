@@ -1,0 +1,26 @@
+/* Estilo para el contenedor principal */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa; /* Fondo claro */
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  /* Asegura que el contenido ocupe toda la altura de la pantalla */
+}
+
+/* Estilo para los mensajes de bienvenida */
+.greeting {
+  font-size: 1.5rem;
+  color: #343a40;  /* Color oscuro para el texto */
+  margin-top: 2rem;
+  text-align: center;
+  padding: 1rem; /* Agregar padding para más separación */
+  background-color: #ffffff; /* Fondo blanco para el saludo */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 600px; /* Ancho máximo para el mensaje */
+  margin-left: auto;
+  margin-right: auto; /* Centrar el mensaje */
+}
+
