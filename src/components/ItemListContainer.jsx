@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/products';
 
 const ItemListContainer = () => {
-  const { id } = useParams(); // Corregido: capturar `id` en vez de `categoryName`
+  const { id } = useParams(); 
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const ItemListContainer = () => {
       : products;
     
     setFilteredProducts(filtered);
-  }, [id]); // Se ejecuta cuando cambia la categoría
+  }, [id]); 
 
   return (
     <div className="container mt-4">

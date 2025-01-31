@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../context/CartContext'; // Importa el hook useCart
+import { useCart } from '../context/CartContext'; 
 
 const Cart = () => {
   const { cart, getCartCount } = useCart();

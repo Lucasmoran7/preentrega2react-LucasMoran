@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from './components/NavBar';  // Asegúrate de tener la ruta correcta
-import CartWidget from './components/CartWidget';  // Lo mismo aquí
-import ItemListContainer from './components/ItemListContainer';  // Y aquí
+import NavBar from './components/NavBar'; 
+import CartWidget from './components/CartWidget';  
+import ItemListContainer from './components/ItemListContainer';  
 
 const App = () => {
   return (

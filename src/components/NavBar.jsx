@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext'; // Asegúrate de que la ruta sea correcta
+import { useCart } from '../context/CartContext'; 
 
 const categories = ['moda', 'electrodomésticos', 'herramientas', 'automotor', 'alimentos'];
 
 const NavBar = () => {
-  const { cart } = useCart(); // Obtén el carrito desde el contexto
-  const totalItems = cart.length; // Calcula el número total de productos en el carrito
+  const { cart } = useCart(); 
+  const totalItems = cart.length; 
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">

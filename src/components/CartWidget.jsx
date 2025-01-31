@@ -7,7 +7,6 @@ const CartWidget = () => {
   const [message, setMessage] = useState(''); // Mensaje temporal para el agregado
 
   const handleAddToCart = () => {
-    // Llamamos a la función addToCart desde el contexto para agregar un producto
     const exampleProduct = { id: 1, name: 'Producto Ejemplo', price: 100, images: 'url-de-imagen' };
     addToCart(exampleProduct);  // Usamos addToCart que proviene del contexto
     setMessage('Producto agregado');

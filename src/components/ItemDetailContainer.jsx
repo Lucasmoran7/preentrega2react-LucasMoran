@@ -12,7 +12,7 @@ const ItemDetailContainer = () => {
 
   const handleAddToCart = () => {
     console.log('Producto agregado al carrito:', product);
-    addToCart(product); // Agrega el producto al carrito
+    addToCart(product); 
   };
 
   return (
