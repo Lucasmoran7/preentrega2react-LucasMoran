@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useCart } from '../context/CartContext'; // Asegúrate de que la ruta es correcta
-import { products } from '../data/products'; // Importa los productos
+import { useCart } from '../context/CartContext'; 
+import { products } from '../data/products'; 
 
 const ItemDetailContainer = () => {
-  const { id } = useParams(); // Obtén el ID del producto desde la URL
-  const { addToCart } = useCart(); // Accede a la función addToCart desde el contexto
-  const [product, setProduct] = useState(null); // Estado para almacenar el producto
+  const { id } = useParams(); 
+  const { addToCart } = useCart(); 
+  const [product, setProduct] = useState(null); 
 
-  // Buscar el producto según el ID
   useEffect(() => {
-    const foundProduct = products.find(product => product.id === parseInt(id)); // Busca el producto por ID
+    const foundProduct = products.find(product => product.id === parseInt(id)); 
     if (foundProduct) {
-      setProduct(foundProduct); // Establece el producto en el estado
+      setProduct(foundProduct); 
     }
   }, [id]);
 
