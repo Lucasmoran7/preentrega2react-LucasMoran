@@ -1,26 +1,91 @@
 /* Estilo para el contenedor principal */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Estilo para el fondo de la página */
 body {
+  background-color: beige;
+  font-family: Arial, sans-serif; 
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #f8f9fa; /* Fondo claro */
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;  /* Asegura que el contenido ocupe toda la altura de la pantalla */
 }
 
 /* Estilo para los mensajes de bienvenida */
 .greeting {
   font-size: 1.5rem;
-  color: #343a40;  /* Color oscuro para el texto */
+  color: #343a40;
   margin-top: 2rem;
   text-align: center;
-  padding: 1rem; /* Agregar padding para más separación */
-  background-color: #ffffff; /* Fondo blanco para el saludo */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  max-width: 600px; /* Ancho máximo para el mensaje */
-  margin-left: auto;
-  margin-right: auto; /* Centrar el mensaje */
 }
 
+/* Estilo para las categorías (botones) */
+.categories {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  flex-wrap: wrap; 
+}
+
+.categories button {
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px; 
+  border-radius: 5px;
+}
+
+/* Estilo global para los botones */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px; 
+  transition: background-color 0.3s ease; }
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:focus {
+  outline: 2px solid #0056b3; }
+
+/* Estilo para la imagen del producto */
+.product-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 5px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+/* Estilo para las tarjetas de productos */
+.card {
+  margin-bottom: 20px;
+  border: none; /* Eliminar borde */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; }
+
+.card-body {
+  padding: 15px;
+}
+
+/* Estilo responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .categories {
+    flex-direction: column; 
+    align-items: center;
+  }
+
+  .card {
+    width: 100%; 
+  }
+
+  button {
+    width: 100%; 
+  }
+}
