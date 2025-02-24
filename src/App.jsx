@@ -6,6 +6,8 @@ import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
 import Cart from './components/Cart';
 import Checkout from "./components/Checkout";
+import Confirmation from "./components/Confirmation"; // Asegúrate de importar el componente
+
 
 const App = () => {
   return (
@@ -18,6 +20,7 @@ const App = () => {
         <Route path="/item/:id" element={<ItemDetailContainer />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/confirmation" element={<Confirmation />} /> {/* Aquí defines la ruta */}
       </Routes>
     </>
   );

@@ -20,18 +20,18 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (itemId, quantityToRemove) => {
+  const removeFromCart = (itemId, quantityToRemove = null) => {
     setCart((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === itemId
-          ? { ...item, quantity: Math.max(0, item.quantity - quantityToRemove) } // Evita que la cantidad sea negativa
-          : item
-      );
-      
-      // Filtra los productos con cantidad 0
-      return updatedCart.filter((item) => item.quantity > 0);
+      return prevCart
+        .map((item) =>
+          item.id === itemId
+            ? { ...item, quantity: item.quantity - (quantityToRemove || item.quantity) }
+            : item
+        )
+        .filter((item) => item.quantity > 0); // Elimina productos con cantidad 0
     });
   };
+  
 
   const getCartCount = () => {
     return cart.reduce((acc, item) => acc + item.quantity, 0);

@@ -14,7 +14,7 @@ export const getProducts = () => {
 export const getProductById = (id) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const product = products.find((prod) => prod.id === id);
+        const product = products.find((prod) => prod.id.toString() === id.toString()); // Comparación segura
         if (product) {
           resolve(product);
         } else {
@@ -23,4 +23,5 @@ export const getProductById = (id) => {
       }, 500);
     });
   };
+  
   
