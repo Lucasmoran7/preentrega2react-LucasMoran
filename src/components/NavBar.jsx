@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CartWidget from "./CartWidget";
 import { useCart } from '../context/CartContext'; 
 
 const categories = ['moda', 'electrodomésticos', 'herramientas', 'automotor', 'alimentos'];
 
 const NavBar = () => {
-  const { cart } = useCart(); 
-  const totalItems = cart.length; 
+  const { cart, getCartCount } = useCart(); 
+  const totalItems = getCartCount(); 
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,7 +17,7 @@ const NavBar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav me-auto">
             {categories.map((category) => (
               <li className="nav-item" key={category}>
                 <Link className="nav-link" to={`/category/${category.toLowerCase()}`}>
@@ -25,9 +26,10 @@ const NavBar = () => {
               </li>
             ))}
           </ul>
-          <div className="d-flex">
-            <Link to="/cart" className="nav-link">
-              Carrito {totalItems > 0 && `(${totalItems})`} {/* Muestra el número de productos */}
+          <div className="ms-auto d-flex align-items-center">
+            <Link to="/cart" className="nav-link text-white d-flex align-items-center" aria-label="Ir al carrito de compras">
+              <CartWidget />
+              {totalItems > 0 && <span className="badge bg-primary ms-2">{totalItems}</span>}
             </Link>
           </div>
         </div>

@@ -1,16 +1,44 @@
 import { createContext, useContext, useState } from "react";
 
-export const CartContext = createContext();
+const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (item) => {
-    setCart([...cart, item]);
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        return prevCart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity } // Aumenta la cantidad
+            : cartItem
+        );
+      } else {
+        return [...prevCart, { ...item, quantity: item.quantity }];
+      }
+    });
+  };
+
+  const removeFromCart = (itemId, quantityToRemove) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) =>
+        item.id === itemId
+          ? { ...item, quantity: Math.max(0, item.quantity - quantityToRemove) } // Evita que la cantidad sea negativa
+          : item
+      );
+      
+      // Filtra los productos con cantidad 0
+      return updatedCart.filter((item) => item.quantity > 0);
+    });
+  };
+
+  const getCartCount = () => {
+    return cart.reduce((acc, item) => acc + item.quantity, 0);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getCartCount }}>
       {children}
     </CartContext.Provider>
   );

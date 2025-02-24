@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';  // Importa Link para la navegación
 import { useCart } from '../context/CartContext'; 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart(); 
@@ -9,6 +10,9 @@ const ProductCard = ({ product }) => {
       <div className="card-body">
         <h5 className="card-title">{product.name}</h5>
         <p className="card-text">${product.price}</p>
+        <Link to={`/item/${product.id}`} className="btn btn-primary">
+          Ver detalles
+        </Link>
         <button 
           className="btn btn-primary" 
           onClick={() => addToCart(product)} 
