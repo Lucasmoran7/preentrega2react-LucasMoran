@@ -1,19 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CartWidget from "./CartWidget";
-import { useCart } from '../context/CartContext'; 
+import { useCart } from '../context/CartContext';
 
 const categories = ['moda', 'electrodomésticos', 'herramientas', 'automotor', 'alimentos'];
 
 const NavBar = () => {
-  const { cart, getCartCount } = useCart(); 
-  const totalItems = getCartCount(); 
+  const { cart, getCartCount } = useCart();
+  const totalItems = getCartCount();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/">Zafira</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <Link className="navbar-brand" to="/" aria-label="Ir a la página principal de Zafira">
+          Zafira
+        </Link>
+        <button 
+          className="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Alternar navegación"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
@@ -47,4 +57,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-

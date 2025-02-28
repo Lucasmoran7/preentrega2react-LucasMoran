@@ -1,18 +1,25 @@
 import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
-import { useCart } from '../context/CartContext'; // Usamos el hook del contexto
+import { useCart } from '../context/CartContext';
 
 const CartWidget = () => {
-  const { cart } = useCart(); // Accedemos al carrito
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0); // Suma de las cantidades
+  const { cart } = useCart();
+  const totalItems = cart.reduce((acc, { quantity }) => acc + quantity, 0);
 
   return (
-    <div className="d-flex align-items-center text-white">
+    <div 
+      className="cart-widget d-flex align-items-center text-white" 
+      role="button" 
+      aria-label="Carrito de compras" 
+      tabIndex="0"
+    >
       <FaShoppingCart size={24} />
-      <span className="ms-2">{totalItems > 0 ? totalItems : 'Carrito vacío'}</span>
+      {totalItems > 0 && (
+        <span className="cart-count ms-2">{totalItems}</span>
+      )}
     </div>
   );
 };
 
-
 export default CartWidget;
+

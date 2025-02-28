@@ -48,10 +48,9 @@ export const CartProvider = ({ children }) => {
     setCart([]);  // Vaciar todo el carrito
   };
   
- 
   const removeFromCart = (itemId, quantityToRemove = null) => {
     setCart((prevCart) => {
-      return prevCart
+      const updatedCart = prevCart
         .map((item) =>
           item.id === itemId
             ? {
@@ -61,6 +60,8 @@ export const CartProvider = ({ children }) => {
             : item
         )
         .filter((item) => item.quantity > 0); // Eliminar productos con cantidad 0
+
+      return updatedCart;
     });
   };
 
@@ -81,8 +82,21 @@ export const CartProvider = ({ children }) => {
     return cart.reduce((acc, item) => acc + item.quantity, 0);
   };
 
+  // Verificar si la cantidad de productos en el carrito supera el stock disponible
+  const checkStockAvailability = () => {
+    return cart.every(item => item.quantity <= item.stock);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getCartCount, updateQuantity }}>
+    <CartContext.Provider value={{
+      cart,
+      addToCart,
+      removeFromCart,
+      getCartCount,
+      updateQuantity,
+      clearCart,
+      checkStockAvailability
+    }}>
       {children}
     </CartContext.Provider>
   );

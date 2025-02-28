@@ -28,15 +28,15 @@ const ItemDetailContainer = () => {
       })
       .catch((error) => {
         console.error("Error obteniendo el producto:", error);
-        setError("Ocurrió un error al cargar el producto.");
+        setError(`Ocurrió un error al cargar el producto: ${error.message}`);
       })
       .finally(() => setLoading(false));
   }, [id]);
 
   if (loading) {
     return (
-      <div className="text-center">
-        <Spinner animation="border" variant="primary" /> {/* Spinner de carga */}
+      <div className="text-center" aria-live="assertive"> {/* Añadido aria-live */}
+        <Spinner animation="border" variant="primary" />
         <p>Cargando el producto...</p>
       </div>
     );
@@ -56,7 +56,7 @@ const ItemDetailContainer = () => {
   if (error) {
     return (
       <div className="text-center">
-        <Alert variant="danger">{error}</Alert>
+        <Alert variant="danger" aria-live="assertive">{error}</Alert> {/* Añadido aria-live */}
         <Link to="/" className="btn btn-dark mt-3">
           Volver a Home
         </Link>
@@ -68,3 +68,4 @@ const ItemDetailContainer = () => {
 };
 
 export default ItemDetailContainer;
+

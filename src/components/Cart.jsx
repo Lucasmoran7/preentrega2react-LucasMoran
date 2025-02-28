@@ -1,42 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../services/firebase";
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
   const [removeQuantity, setRemoveQuantity] = useState({});
-  const [totalPrice, setTotalPrice] = useState(0); // Estado para total
-  const navigate = useNavigate(); // Para redirigir al checkout
+  const navigate = useNavigate();
 
-  // Calcular el total del carrito cada vez que el carrito cambie
-  useEffect(() => {
-    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    setTotalPrice(total); // Actualiza el total
-  }, [cart]); // Recalcular total si cambia el carrito
+  // Calcula el total del carrito
+  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handleRemove = (itemId) => {
     const quantity = removeQuantity[itemId] || 0;
     if (quantity > 0) {
-      removeFromCart(itemId, quantity);  // Asegúrate de que esta función pueda manejar la cantidad
+      removeFromCart(itemId, quantity);
       setRemoveQuantity((prev) => ({ ...prev, [itemId]: "" }));
     } else {
-      removeFromCart(itemId);  // Eliminar el producto si no hay cantidad especificada
+      removeFromCart(itemId);
     }
   };
 
   const handleQuantityChange = (e, itemId) => {
-    const value = Math.max(parseInt(e.target.value) || 1, 1);  // Previene valores negativos
-    if (value !== removeQuantity[itemId]) {  // Solo actualiza si el valor cambia
-      setRemoveQuantity((prev) => ({
-        ...prev,
-        [itemId]: value,
-      }));
-      updateQuantity(itemId, value); // Actualiza la cantidad en el carrito
+    const value = Math.max(parseInt(e.target.value) || 1, 1);
+    if (value !== removeQuantity[itemId]) {
+      setRemoveQuantity((prev) => ({ ...prev, [itemId]: value }));
+      updateQuantity(itemId, value);
     }
   };
 
-  const handleCheckout = () => {
-    navigate("/checkout"); // Redirige al checkout
+  const handleCheckout = async () => {
+    if (cart.length === 0) {
+      alert("El carrito está vacío.");
+      return;
+    }
+    try {
+      // Crea la orden en Firebase
+      const docRef = await addDoc(collection(db, "orders"), {
+        items: cart,
+        total: totalPrice,
+        date: new Date(),
+      });
+      // Vacía el carrito
+      clearCart();
+      // Redirige a la página de confirmación con el ID de la orden
+      navigate(`/confirmation/${docRef.id}`);
+    } catch (error) {
+      console.error("Error al finalizar la compra:", error);
+      alert("Hubo un error al procesar la compra.");
+    }
   };
 
   return (
@@ -54,7 +67,7 @@ const Cart = () => {
                   <h3>{item.name}</h3>
                   <p>Precio: ${item.price}</p>
                   <p>Cantidad: {item.quantity}</p>
-                  <button onClick={() => removeFromCart(item.id)}>Eliminar</button>
+                  <button onClick={() => handleRemove(item.id)}>Eliminar</button>
                   <div>
                     <input
                       type="number"
@@ -62,14 +75,16 @@ const Cart = () => {
                       value={removeQuantity[item.id] || item.quantity}
                       onChange={(e) => handleQuantityChange(e, item.id)}
                     />
-                    
                   </div>
                 </div>
               </li>
             ))}
           </ul>
-          <h3>Total: ${totalPrice}</h3> {/* Mostrar el total calculado */}
-          <button onClick={clearCart}>Vaciar carrito</button>  {/* Botón para vaciar carrito */}
+          <h3>Total: ${totalPrice}</h3>
+          <button onClick={clearCart} className="btn btn-danger">
+            Vaciar carrito
+          </button>
+          {/* Aquí se muestra siempre el botón de Finalizar Compra */}
           <button onClick={handleCheckout} className="btn btn-primary">
             Finalizar Compra
           </button>

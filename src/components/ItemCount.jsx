@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const ItemCount = ({ stock, initial, onAdd }) => {
   const [count, setCount] = useState(initial);
+  const [added, setAdded] = useState(false); // Estado para manejar el feedback después de agregar al carrito
 
   const handleIncrement = () => {
     if (count < stock) {
@@ -17,6 +18,8 @@ const ItemCount = ({ stock, initial, onAdd }) => {
 
   const handleAdd = () => {
     onAdd(count); // Llama a la función onAdd pasando la cantidad
+    setAdded(true); // Cambia el estado a 'agregado' cuando se añade al carrito
+    setTimeout(() => setAdded(false), 3000); // Resetear el mensaje después de 3 segundos
   };
 
   return (
@@ -31,7 +34,7 @@ const ItemCount = ({ stock, initial, onAdd }) => {
         >
           -
         </button>
-        <span style={{ width: '50px', textAlign: 'center' }}>{count}</span>
+        <span style={{ width: '50px', textAlign: 'center' }} aria-live="polite">{count}</span> {/* Indicamos que el cambio de cantidad es dinámico */}
         <button
           onClick={handleIncrement}
           className="btn btn-success"
@@ -48,13 +51,14 @@ const ItemCount = ({ stock, initial, onAdd }) => {
         disabled={count === 0 || stock === 0}
         aria-label="Agregar al carrito"
       >
-        Agregar al carrito
+        {added ? "Producto agregado" : "Agregar al carrito"}
       </button>
       {stock === 0 && (
-        <p className="text-danger mt-2">Lo siento, este producto está agotado.</p>
+        <p className="text-danger mt-2" aria-live="assertive">Lo siento, este producto está agotado.</p> // Anuncio para tecnologías asistivas
       )}
     </div>
   );
 };
 
 export default ItemCount;
+

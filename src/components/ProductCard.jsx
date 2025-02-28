@@ -15,13 +15,17 @@ const ProductCard = ({ product }) => {
   }, [added]);
 
   const handleAddToCart = (product) => {
-    addToCart(product);
+    addToCart({ ...product, quantity: 1 });
     setAdded(true);
   };
 
   return (
-    <Card className="my-3" style={{ width: '100%' }}>
-      <Card.Img variant="top" src={product.images} alt={`Imagen de ${product.name}`} />
+    <Card className="my-3">
+      <Card.Img 
+        variant="top" 
+        src={product.images || 'default-image.jpg'} // Imagen predeterminada en caso de no tener una
+        alt={`Imagen de ${product.name}`} 
+      />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>${product.price}</Card.Text>
@@ -34,10 +38,10 @@ const ProductCard = ({ product }) => {
         </Link>
 
         {/* Botón para agregar al carrito */}
-        <Button 
-          variant={product.stock <= 0 ? 'secondary' : 'primary'} 
-          className="w-100 mb-2" 
-          onClick={() => handleAddToCart(product)} 
+        <Button
+          variant={product.stock <= 0 ? 'secondary' : 'primary'}
+          className="w-100 mb-2"
+          onClick={() => handleAddToCart(product)}
           disabled={product.stock <= 0}
           aria-label={`Agregar ${product.name} al carrito`}
         >

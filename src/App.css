@@ -188,3 +188,18 @@ button.remove-item:hover {
 .clear-cart-button:hover {
   background-color: #e60000;
 }
+
+.cart-widget {
+  position: relative;
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;  
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 3px 6px;
+  }
+}
