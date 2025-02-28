@@ -1,41 +1,67 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getProductById } from "../utils/mockData"; // Simulación de la API
+import { useParams, Link } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../services/firebase";
 import ItemDetail from "./ItemDetail";
+import { Spinner, Alert } from "react-bootstrap"; // Importa Spinner y Alert de React Bootstrap
 
 const ItemDetailContainer = () => {
-  const { id } = useParams(); 
-  const [product, setProduct] = useState(null); 
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [invalidItem, setInvalidItem] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // Añadir estado de error
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        console.log(`Buscando producto con ID: ${id}`);
-        const fetchedProduct = await getProductById(id); // Espera la respuesta
+    setLoading(true);
+    setError(null); // Reiniciar error cuando se hace una nueva solicitud
 
-        if (fetchedProduct) {
-          setProduct(fetchedProduct);
-          console.log("Producto encontrado:", fetchedProduct);
+    const docRef = doc(db, "products", id);
+
+    getDoc(docRef)
+      .then((res) => {
+        if (res.exists()) {
+          setProduct({ id: res.id, ...res.data() });
         } else {
-          console.error("Producto no encontrado");
+          setInvalidItem(true);
         }
-      } catch (error) {
-        console.error("Error al obtener producto:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
+      })
+      .catch((error) => {
+        console.error("Error obteniendo el producto:", error);
+        setError("Ocurrió un error al cargar el producto.");
+      })
+      .finally(() => setLoading(false));
   }, [id]);
 
   if (loading) {
-    return <p>Cargando el producto...</p>;
+    return (
+      <div className="text-center">
+        <Spinner animation="border" variant="primary" /> {/* Spinner de carga */}
+        <p>Cargando el producto...</p>
+      </div>
+    );
   }
 
-  if (!product) {
-    return <p>No se encontró el producto.</p>;
+  if (invalidItem) {
+    return (
+      <div className="text-center">
+        <h2>Este producto no existe o ha sido removido.</h2>
+        <Link to="/" className="btn btn-dark mt-3">
+          Volver a Home
+        </Link>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center">
+        <Alert variant="danger">{error}</Alert>
+        <Link to="/" className="btn btn-dark mt-3">
+          Volver a Home
+        </Link>
+      </div>
+    );
   }
 
   return <ItemDetail product={product} />;

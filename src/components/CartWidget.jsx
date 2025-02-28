@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext'; // Usamos el hook del contexto
 
 const CartWidget = () => {
   const { cart } = useCart(); // Accedemos al carrito
-  const totalItems = cart.length; // Obtenemos el total de items en el carrito
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0); // Suma de las cantidades
 
   return (
     <div className="d-flex align-items-center text-white">
@@ -14,6 +14,5 @@ const CartWidget = () => {
   );
 };
 
+
 export default CartWidget;
-
-

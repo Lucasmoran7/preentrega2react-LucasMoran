@@ -20,14 +20,22 @@ const NavBar = () => {
           <ul className="navbar-nav me-auto">
             {categories.map((category) => (
               <li className="nav-item" key={category}>
-                <Link className="nav-link" to={`/category/${category.toLowerCase()}`}>
+                <Link 
+                  className="nav-link" 
+                  to={`/category/${category.toLowerCase()}`}
+                  aria-label={`Ver productos de ${category}`}
+                >
                   {category}
                 </Link>
               </li>
             ))}
           </ul>
           <div className="ms-auto d-flex align-items-center">
-            <Link to="/cart" className="nav-link text-white d-flex align-items-center" aria-label="Ir al carrito de compras">
+            <Link 
+              to="/cart" 
+              className="nav-link text-white d-flex align-items-center" 
+              aria-label="Ir al carrito de compras"
+            >
               <CartWidget />
               {totalItems > 0 && <span className="badge bg-primary ms-2">{totalItems}</span>}
             </Link>

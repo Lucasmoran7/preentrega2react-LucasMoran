@@ -6,7 +6,7 @@ export const products = [
     price: 50000.00,
     images: '/assets/images/camisa_de_algodon.webp',
     description: 'Camisa 100% de algodon, ideal para el verano.',
-    stock: 10 // agrego stock
+    stock: 10 
   },
   {
     id: 2,

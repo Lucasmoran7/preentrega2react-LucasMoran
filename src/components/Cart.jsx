@@ -3,7 +3,7 @@ import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
   const [removeQuantity, setRemoveQuantity] = useState({});
   const [totalPrice, setTotalPrice] = useState(0); // Estado para total
   const navigate = useNavigate(); // Para redirigir al checkout
@@ -17,17 +17,22 @@ const Cart = () => {
   const handleRemove = (itemId) => {
     const quantity = removeQuantity[itemId] || 0;
     if (quantity > 0) {
-      removeFromCart(itemId, quantity);
+      removeFromCart(itemId, quantity);  // Asegúrate de que esta función pueda manejar la cantidad
       setRemoveQuantity((prev) => ({ ...prev, [itemId]: "" }));
+    } else {
+      removeFromCart(itemId);  // Eliminar el producto si no hay cantidad especificada
     }
   };
 
   const handleQuantityChange = (e, itemId) => {
-    const value = parseInt(e.target.value) || 0;
-    setRemoveQuantity((prev) => ({
-      ...prev,
-      [itemId]: value,
-    }));
+    const value = Math.max(parseInt(e.target.value) || 1, 1);  // Previene valores negativos
+    if (value !== removeQuantity[itemId]) {  // Solo actualiza si el valor cambia
+      setRemoveQuantity((prev) => ({
+        ...prev,
+        [itemId]: value,
+      }));
+      updateQuantity(itemId, value); // Actualiza la cantidad en el carrito
+    }
   };
 
   const handleCheckout = () => {
@@ -49,6 +54,7 @@ const Cart = () => {
                   <h3>{item.name}</h3>
                   <p>Precio: ${item.price}</p>
                   <p>Cantidad: {item.quantity}</p>
+                  <button onClick={() => removeFromCart(item.id)}>Eliminar</button>
                   <div>
                     <input
                       type="number"
@@ -56,13 +62,14 @@ const Cart = () => {
                       value={removeQuantity[item.id] || item.quantity}
                       onChange={(e) => handleQuantityChange(e, item.id)}
                     />
-                    <button onClick={() => handleRemove(item.id)}>Eliminar</button>
+                    
                   </div>
                 </div>
               </li>
             ))}
           </ul>
           <h3>Total: ${totalPrice}</h3> {/* Mostrar el total calculado */}
+          <button onClick={clearCart}>Vaciar carrito</button>  {/* Botón para vaciar carrito */}
           <button onClick={handleCheckout} className="btn btn-primary">
             Finalizar Compra
           </button>
